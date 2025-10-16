@@ -8,6 +8,14 @@ import axios from "axios";
 const BASE_URL = `https://www.omdbapi.com/`;
 const API_KEY = "c393ced6";
 
+//Elements t/f HTML
+const resultsRow = document.querySelector(".row");
+const moviesWrapper = document.querySelector(".results");
+
+//Global var's so don't have to use local storage
+let currentImdbID;
+
+
 const Main = () => {
   const [inputValue, setInputValue] = useState("");
   const [resData, setResData] = useState("");
@@ -34,10 +42,41 @@ const Main = () => {
       `${BASE_URL}?s=${inputValue}&apikey=${API_KEY}`
     );
     setResData(data.Search);
+    displayMovies(resData);
   }
 
 
-  
+  //DISPLAYING MOVIES
+function displayMovies(movieList) {
+  console.log(movieList)
+  resultsRow.classList.remove("hidden");
+  moviesWrapper.innerHTML = movieList
+    // .slice(0, 6)
+    .map((movie) => {
+      currentImdbID = movie.imdbID;
+      
+      return `
+      <div className="movie">
+        <div className="posterWrapper">
+          <figure>
+            <img src="${movie.Poster}" className="poster">
+            <div className="coverPoster"></div>
+          </figure>
+          <div className="movie__description">
+            <h2 className="movie__title">${movie.Title}</h2>
+            <div>
+              <p className="movie__details">Released ${movie.Year}</p>
+              <p className="movie__details">IMDB ID: ${movie.imdbID}</p>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    })
+    .join("");
+}
+
+
+
   return (
     <div>
       <section className="search">
@@ -67,7 +106,7 @@ const Main = () => {
       </section>
 
       <section id="main">
-        {/* <div className="container">
+        <div className="container">
           <div className="loading hide__spinner">
             <i className="fa-solid fa-gear" aria-hidden="true"></i>
           </div>
@@ -107,7 +146,7 @@ const Main = () => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </section>
     </div>
   );
