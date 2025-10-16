@@ -1,48 +1,116 @@
-import React from 'react';
+import React, { useState } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+
+//API CREDS
+const BASE_URL = `https://www.omdbapi.com/`;
+const API_KEY = "c393ced6";
 
 const Main = () => {
-    return (
-        <>
-              <section id="main">
-      <div class="container">
-        <div class="loading hide__spinner">
-          <i class="fa-solid fa-gear" aria-hidden="true"></i>
-        </div>
-        <div class="row hidden">
-          <div class="results__wrapper">
-            <h3 class="results__message">Search Results</h3>
-            <select id="filter" onchange="sortChange(event)">
-              <option value="" disabled selected>Sort Movies</option>
-              <option value="A_Z">Alphabetically A-Z</option>
-              <option value="Z_A">Alphabetically Z-A</option>
-              <option value="LOW_TO_HIGH">Oldest to Newest</option>
-              <option value="HIGH_TO_LOW">Newest to Oldest</option>
-            </select>
+  const [inputValue, setInputValue] = useState("");
+  const [resData, setResData] = useState("");
+
+  //onclick
+  const handleSubmit = () => {
+    console.log("Submitted value:", inputValue);
+    fetchData(inputValue);
+    //Perform actions with the input value
+  };
+  //onEnter
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit(); //Call the same submit function
+    }
+  };
+  //onTyping
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+//call api
+  async function fetchData(inputValue) {
+    const { data } = await axios.get(
+      `${BASE_URL}?s=${inputValue}&apikey=${API_KEY}`
+    );
+    setResData(data.Search);
+  }
+
+
+  
+  return (
+    <div>
+      <section className="search">
+        <div className="search__wrapper">
+          <input
+            type="text"
+            className="search__input"
+            id="idBox"
+            placeholder="What movie are you looking for?"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
+            autoFocus
+          />
+          <div className="search__icon" id="idBtn" onClick={handleSubmit}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
           </div>
-          <div class="results">
-            <div class="movie">
-              <figure class="poster__wrapper">
-                Poster
-                <img src="" alt="" class="poster" />
-              </figure>
-              <div class="movie__description">
-                <div class="movie__director">Directed by:</div>
-                <div class="movie__actors">Starring:</div>
-              </div>
-              <div class="movie__title">Title</div>
-              <div class="movie__year">Released</div>
-              <div class="movie__imdb">IMDB:</div>
-              <hr />
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores
-              aliquam numquam officia, eos quae enim vel doloremque rerum
-              incidunt in.
+        </div>
+        {/* message box prn */}
+        {/* <div className="message-box__locator">
+          <div className="message-box hidden">
+            <div className="message-text">
+              Look for <span className="italic">THAT</span> movie
             </div>
           </div>
-        </div>
-      </div>
-    </section>  
-        </>
-    );
-}
+        </div> */}
+      </section>
+
+      <section id="main">
+        {/* <div className="container">
+          <div className="loading hide__spinner">
+            <i className="fa-solid fa-gear" aria-hidden="true"></i>
+          </div>
+          <div className="row hidden">
+            <div className="results__wrapper">
+              <h3 className="results__message">Search Results</h3>
+              <label>Sort these results:
+
+              <select name="filter" defaultValue={""}>
+                <option value="">
+                  Sort Movies
+                </option>
+                <option value="A_Z">Alphabetically A-Z</option>
+                <option value="Z_A">Alphabetically Z-A</option>
+                <option value="LOW_TO_HIGH">Oldest to Newest</option>
+                <option value="HIGH_TO_LOW">Newest to Oldest</option>
+              </select>
+              </label>
+            </div>
+            <div className="results">
+              <div className="movie">
+                <figure className="poster__wrapper">
+                  Poster
+                  <img src="." alt="" className="poster" />
+                </figure>
+                <div className="movie__description">
+                  <div className="movie__director">Directed by:</div>
+                  <div className="movie__actors">Starring:</div>
+                </div>
+                <div className="movie__title">Title</div>
+                <div className="movie__year">Released</div>
+                <div className="movie__imdb">IMDB:</div>
+                <hr />
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Maiores aliquam numquam officia, eos quae enim vel doloremque
+                rerum incidunt in.
+              </div>
+            </div>
+          </div>
+        </div> */}
+      </section>
+    </div>
+  );
+};
 
 export default Main;

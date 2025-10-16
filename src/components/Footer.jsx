@@ -24,22 +24,22 @@ const Footer = () => {
                      <a
           href="https://www.linkedin.com/"
           target="_blank"
-          class="fa-brands fa-linkedin"
+          className="fa-brands fa-linkedin"
         ><FontAwesomeIcon icon={faLinkedin} /></a>
                 <a
           href="https://www.youtube.com/"
           target="_blank"
-          class="fa-brands fa-youtube"
+          className="fa-brands fa-youtube"
         ><FontAwesomeIcon icon={faYoutube} /></a>
         <a
           href="https://www.instagram.com/"
           target="_blank"
-          class="fa-brands fa-instagram"
+          className="fa-brands fa-instagram"
         ><FontAwesomeIcon icon={faInstagram} /></a>
         <a
           href="https://www.tiktok.com/"
           target="_blank"
-          class="fa-brands fa-tiktok"
+          className="fa-brands fa-tiktok"
         ><FontAwesomeIcon icon={faTiktok} /></a>
 
                     
